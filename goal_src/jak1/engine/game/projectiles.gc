@@ -721,7 +721,7 @@
   (cpad-set-buzz! (-> *cpad-list* cpads 0) 1 204 (seconds 0.1))
   (set! (-> this attack-mode) 'eco-yellow)
   (set! (-> this mode) 1)
-  (set! (-> this max-speed) (vector-length (-> this root transv)))
+  (set! (-> this max-speed) (meters 200))
   (set! (-> this update-velocity) projectile-update-velocity-space-wars)
   (set! (-> this angle) (vector-y-angle (-> this root transv)))
   (set! (-> this tween) 0.05)

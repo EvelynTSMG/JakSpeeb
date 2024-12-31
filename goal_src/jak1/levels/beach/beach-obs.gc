@@ -520,7 +520,7 @@
           (set-vector! s4-0 (+ (-> s5-1 x) (-> s3-0 x)) (-> s5-1 y) (+ (-> s5-1 z) (-> s3-0 z)) 1.0)
           (vector-float*! s3-0 s3-0 10.0)
           (spawn-flying-rock s4-0 s3-0 1.0 (-> self entity))
-          (set-vector! s3-0 (+ (* -0.866 f26-0) (/ f28-0 2)) (/ f30-0 2) (+ (* 0.866 f28-0) (/ f26-0 2)) 1.0)
+          (set-vector! s3-0 (+ (* -0.866 f26-0) (* 0.5 f28-0)) (* 0.5 f30-0) (+ (* 0.866 f28-0) (* 0.5 f26-0)) 1.0)
           (set-vector! s4-0 (-> s5-1 x) (+ 3276.8 (-> s5-1 y)) (-> s5-1 z) 1.0)
           (vector-float*! s3-0 s3-0 10.0)
           (spawn-flying-rock s4-0 s3-0 1.0 (-> self entity))))
@@ -796,8 +796,11 @@
           (let ((f0-2 (vector-dot s5-1 (-> self dir)))
                 (f1-2 (- (* (-> s5-1 x) (-> self dir z)) (* (-> s5-1 z) (-> self dir x)))))
             (if (< f0-2 -0.7)
-              (flutflutegg-method-20 self 24576.0 (* -8192.0 f1-2) (* -8192.0 f0-2))
-              (flutflutegg-method-20 self 0.0 (* -8192.0 f1-2) (* -8192.0 f0-2)))))
+              (flutflutegg-method-20 self (meters 18) (* (- (meters 4)) f1-2) (* (- (meters 4)) f0-2))
+              (flutflutegg-method-20 self 0.0 (* (- (meters 4)) f1-2) (* (- (meters 4)) f0-2))
+            )
+          )
+        )
         (go flutflutegg-physics)))
   :trans
     (behavior ()
@@ -1102,24 +1105,4 @@
 (deftype beachcam (process-hidden) ())
 
 
-(defun beachcam-spawn ()
-  (with-pp
-    (let ((gp-0 (entity-actor-lookup (-> pp entity) 'alt-actor 0)))
-      (when gp-0
-        (let* ((gp-1 (ppointer->handle (process-spawn pov-camera
-                                                      (-> gp-0 extra trans)
-                                                      *beachcam-sg*
-                                                      (new 'static 'spool-anim :name "beachcam-cannon" :index 3 :parts 1 :command-list '())
-                                                      0
-                                                      #f
-                                                      '()
-                                                      :to
-                                                      pp)))
-               (s5-2 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone gp-1 (-> pp entity extra perm task) :to pp))))
-          (let ((v1-13 (handle->process gp-1)))
-            (if v1-13 (set! (-> (the-as pov-camera v1-13) notify-handle) (the-as handle s5-2))))
-          (while (handle->process gp-1)
-            (suspend))
-          (send-event (handle->process s5-2) 'stop-cloning))))
-    0
-    (none)))
+(defun beachcam-spawn ())

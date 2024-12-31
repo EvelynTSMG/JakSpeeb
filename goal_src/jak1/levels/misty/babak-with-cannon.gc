@@ -205,8 +205,6 @@ nav-enemy-default-event-handler
   :event nav-enemy-default-event-handler
   :trans
     (behavior ()
-      (if (and *target* (= (-> *target* current-level name) 'beach)) (spool-push *art-control* "beachcam-cannon" 0 self -1.0))
-      (if (and *target* (= (-> *target* current-level name) 'misty)) (spool-push *art-control* "mistycam-cannon" 0 self -1.0))
       (call-parent-state-handler trans)))
 
 (defstate nav-enemy-fuel-cell (babak-with-cannon)
@@ -234,9 +232,6 @@ nav-enemy-default-event-handler
       (cleanup-for-death self)))
 
 (defmethod common-post ((this babak-with-cannon))
-  (cond
-    ((= (level-status *level* 'beach) 'active) (spool-push *art-control* "beachcam-cannon" 0 this -99.0))
-    ((= (level-status *level* 'misty) 'active) (spool-push *art-control* "mistycam-cannon" 0 this -99.0)))
   ((method-of-type nav-enemy common-post) this)
   (none))
 

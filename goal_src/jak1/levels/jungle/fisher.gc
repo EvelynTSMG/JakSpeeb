@@ -159,7 +159,7 @@
             fisher-params
             16
             (new 'static 'fisher-params :timeout (seconds 2))
-            (new 'static 'fisher-params :timeout (seconds 0.5) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 1.5)
+            (new 'static 'fisher-params :timeout (seconds 0.5) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 2.25)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
                  'fisher-params
@@ -168,7 +168,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.6)
-                 :fish-vel 1.5
+                 :fish-vel 2.25
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -178,7 +178,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.6)
-                 :fish-vel 1.6
+                 :fish-vel 2.4
                  :bad-percent 0.5
                  :powerup-percent 0.25)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -189,7 +189,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.45)
-                 :fish-vel 1.7
+                 :fish-vel 2.55
                  :bad-percent 0.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -200,7 +200,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.4)
-                 :fish-vel 1.8
+                 :fish-vel 2.7
                  :bad-percent 0.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -211,7 +211,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.5)
-                 :fish-vel 1.9
+                 :fish-vel 2.85
                  :bad-percent 0.9
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -222,7 +222,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.35)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :bad-percent 0.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -232,7 +232,7 @@
             fisher-params
             16
             (new 'static 'fisher-params :timeout (seconds 2))
-            (new 'static 'fisher-params :timeout (seconds 1) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 1.5)
+            (new 'static 'fisher-params :timeout (seconds 1) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 2.25)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
                  'fisher-params
@@ -241,7 +241,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.7)
-                 :fish-vel 1.4
+                 :fish-vel 2.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -251,7 +251,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.7)
-                 :fish-vel 1.5
+                 :fish-vel 2.25
                  :bad-percent 0.4
                  :powerup-percent 0.25)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -262,7 +262,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.527)
-                 :fish-vel 1.6
+                 :fish-vel 2.4
                  :bad-percent 0.083
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -273,7 +273,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.48)
-                 :fish-vel 1.7
+                 :fish-vel 2.55
                  :bad-percent 0.083
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -284,7 +284,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.58)
-                 :fish-vel 1.8
+                 :fish-vel 2.7
                  :bad-percent 0.8
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -295,7 +295,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.43)
-                 :fish-vel 1.8
+                 :fish-vel 2.7
                  :bad-percent 0.083
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -305,7 +305,7 @@
             fisher-params
             16
             (new 'static 'fisher-params :timeout (seconds 2))
-            (new 'static 'fisher-params :timeout (seconds 1.5) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 1.5)
+            (new 'static 'fisher-params :timeout (seconds 1.5) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 2.25)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
                  'fisher-params
@@ -314,7 +314,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.8)
-                 :fish-vel 1.4
+                 :fish-vel 2.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -324,7 +324,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.8)
-                 :fish-vel 1.5
+                 :fish-vel 2.25
                  :bad-percent 0.3
                  :powerup-percent 0.25)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -335,7 +335,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.61)
-                 :fish-vel 1.5
+                 :fish-vel 2.25
                  :bad-percent 0.066
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -346,7 +346,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.56)
-                 :fish-vel 1.6
+                 :fish-vel 2.4
                  :bad-percent 0.066
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -357,7 +357,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.66)
-                 :fish-vel 1.6
+                 :fish-vel 2.4
                  :bad-percent 0.6
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -368,7 +368,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.515)
-                 :fish-vel 1.7
+                 :fish-vel 2.55
                  :bad-percent 0.066
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -378,7 +378,7 @@
             fisher-params
             16
             (new 'static 'fisher-params :timeout (seconds 2))
-            (new 'static 'fisher-params :timeout (seconds 2) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 1.5)
+            (new 'static 'fisher-params :timeout (seconds 2) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 2.25)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
                  'fisher-params
@@ -387,7 +387,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.9)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -397,7 +397,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.9)
-                 :fish-vel 1.4
+                 :fish-vel 2.1
                  :bad-percent 0.2
                  :powerup-percent 0.25)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -408,7 +408,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.7)
-                 :fish-vel 1.4
+                 :fish-vel 2.1
                  :bad-percent 0.05
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -419,7 +419,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.65)
-                 :fish-vel 1.5
+                 :fish-vel 2.25
                  :bad-percent 0.05
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -430,7 +430,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.75)
-                 :fish-vel 1.5
+                 :fish-vel 2.25
                  :bad-percent 0.5
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -441,7 +441,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.6)
-                 :fish-vel 1.6
+                 :fish-vel 2.4
                  :bad-percent 0.05
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -451,7 +451,7 @@
             fisher-params
             26
             (new 'static 'fisher-params :timeout (seconds 2))
-            (new 'static 'fisher-params :timeout (seconds 2.5) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 1.5)
+            (new 'static 'fisher-params :timeout (seconds 2.5) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 2.25)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
                  'fisher-params
@@ -460,7 +460,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.9)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -470,7 +470,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.9)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :bad-percent 0.2
                  :powerup-percent 0.25)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -481,7 +481,7 @@
                  :swing-min (seconds 333.33)
                  :swing-max (seconds 0.335)
                  :period (seconds 0.5)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.5)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -490,7 +490,7 @@
                  :vel 0.6
                  :swing-min (seconds 333.33)
                  :period (seconds 0.5)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.5)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -500,7 +500,7 @@
                  :swing-min (seconds 333.33)
                  :swing-max (seconds 0.335)
                  :period (seconds 0.5)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.5)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -509,7 +509,7 @@
                  :vel 0.6
                  :swing-min (seconds 333.33)
                  :period (seconds 0.5)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.5)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -519,7 +519,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.9)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :bad-percent 0.05
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -530,7 +530,7 @@
                  :swing-min (seconds 333.33)
                  :swing-max (seconds 0.335)
                  :period (seconds 0.5)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.5)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -539,7 +539,7 @@
                  :vel 0.6
                  :swing-min (seconds 333.33)
                  :period (seconds 0.5)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.5)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -549,7 +549,7 @@
                  :swing-min (seconds 333.33)
                  :swing-max (seconds 0.335)
                  :period (seconds 0.5)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :powerup-percent 0.5)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -559,7 +559,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.9)
-                 :fish-vel 1.3
+                 :fish-vel 1.95
                  :bad-percent 0.05
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -569,7 +569,7 @@
             fisher-params
             22
             (new 'static 'fisher-params :timeout (seconds 2))
-            (new 'static 'fisher-params :timeout (seconds 3) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 1.5)
+            (new 'static 'fisher-params :timeout (seconds 3) :vel 0.6 :swing-max (seconds 0.1) :period (seconds 0.5) :fish-vel 2.25)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
                  'fisher-params
@@ -578,7 +578,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.6)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -588,7 +588,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.6)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :bad-percent 0.75
                  :powerup-percent 0.25)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -599,7 +599,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.3)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :bad-percent 0.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -610,7 +610,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.4)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :bad-percent 0.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -621,7 +621,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.4)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :bad-percent 0.9
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -632,7 +632,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.25)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :bad-percent 0.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -643,7 +643,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.15)
-                 :fish-vel 2.2
+                 :fish-vel 3.3
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
             (new 'static
@@ -653,7 +653,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.25)
-                 :fish-vel 2.0
+                 :fish-vel 3.0
                  :bad-percent 0.2
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -664,7 +664,7 @@
                  :swing-min (seconds 0.5)
                  :swing-max (seconds 2)
                  :period (seconds 0.15)
-                 :fish-vel 2.2
+                 :fish-vel 3.3
                  :bad-percent 0.1
                  :powerup-percent 0.1)
             (new 'static 'fisher-params :timeout (seconds 2))
@@ -855,7 +855,7 @@
                         *entity-pool*)
          (sound-play "get-small-fish")
          (send-event (ppointer->process (-> self parent)) 'fisher-fish-caught 1)))
-      (set! (-> self vel) (/ (-> self vel) 4))
+      (set! (-> self vel) (* 0.25 (-> self vel)))
       (while (< 0.1 (-> self root scale x))
         (set! (-> self offset) (-> (the-as fisher (-> self parent 0)) paddle))
         (fisher-fish-move)
@@ -1178,8 +1178,11 @@
       (fisher-spawn-ambient)
       (process-spawn fisher-fish gp-0 (-> self spawner) (* 1.85 (-> self params fish-vel)) :to self)))
   (let ((f1-14 (analog-input (the-as int (-> *cpad-list* cpads 0 leftx)) 128.0 32.0 110.0 28.0)))
-    (+! (-> self paddle-vel) (* f1-14 (seconds-per-frame))))
-  (seek! (-> self paddle-vel) 0.0 (* 15.0 (seconds-per-frame)))
+    (+! (-> self paddle-vel) (* f1-14 (seconds-per-frame)))
+    (when (< (fabs f1-14) STICK_DEADZONE)
+      (set! (-> self paddle-vel) 0.0) ; Snappier controls to mitigate the speeb adding difficulty
+    )
+  )
   (set! (-> self paddle-vel) (fmax -2.0 (fmin 2.0 (-> self paddle-vel))))
   (+! (-> self paddle) (* (-> self paddle-vel) (seconds-per-frame)))
   (set! (-> self paddle) (fmax 0.0 (fmin 1.0 (-> self paddle))))

@@ -252,7 +252,7 @@
           (s4-0 #f))
       (when (-> this draw shadow)
         (when (or (logtest? (-> this draw status) (draw-status was-drawn))
-                  (< (vector-vector-xz-distance-squared (-> this root trans) (camera-pos)) 10485760000.0))
+                  (< (vector-vector-xz-distance-squared (-> this root trans) (camera-pos)) (meters (* 1600 1600))))
           (let ((s3-1 (new 'stack-no-clear 'collide-tri-result))
                 (a1-1 (new 'stack-no-clear 'vector))
                 (a2-0 (new 'stack-no-clear 'vector)))
@@ -270,6 +270,7 @@
                       0.0)
               (set! (-> s3-1 intersect w) 8192.0)
               (when (and (sphere-in-view-frustum? (the-as sphere (-> s3-1 intersect)))
+                         ; 448^2 meters?
                          (< 822083600.0 (vector-vector-distance-squared (-> s3-1 intersect) (camera-pos))))
                 (set! s4-0 #t)
                 (let ((v1-17 s5-0)) (logclear! (-> v1-17 settings flags) (shadow-flags disable-draw)))
@@ -346,7 +347,7 @@
           0.0
           (let* ((f1-6 (* -81920.0 (the float (-> self rank))))
                  (f0-10 (+ (if (< f26-0 f0-6) (fmax (+ -81920.0 f1-6) (- f26-0 f0-6)) (fmin (+ 245760.0 f1-6) (- f26-0 f0-6))) f28-0))
-                 (f1-10 (/ f0-10 (meters 20)))
+                 (f1-10 (* 0.000012207031 f0-10))
                  (f0-12 (fmax -0.5 (fmin 0.5 f1-10))))
             (set! (-> self speed) (+ (* (+ 0.5 f0-12) (- arg2 arg3)) arg3))))
         ;; og:preserve-this PAL patch here
@@ -484,18 +485,28 @@
         (flying-lurker-calc-speed (meters 15) (meters 30) (meters 0.11666667) (meters 0.083333336))
         (flying-lurker-move)
         (flying-lurker-rotate)
-        (when (and (-> self alt-actor)
-                   (or (< (vector-vector-distance-squared (-> self root trans) (-> self alt-actor extra trans)) 6710886400.0)
-                       (and *target* (< 4194304000000.0 (vector-vector-distance-squared (-> self root trans) (target-pos 0))))))
+        (when (and
+                (-> self alt-actor)
+                ;> But why is this meters squared and not squared -> meters?!
+                ; Because they didn't properly maintain their units through vector-vector-distance-squared
+                (>= (* (meters 20) (meters 20)) (vector-vector-distance-squared (-> self root trans) (-> self alt-actor extra trans)))
+              )
           (set-or-clear-status! (-> self alt-actor) (entity-perm-status dead) #f)
           (entity-birth-no-kill (-> self alt-actor))
           (let ((a1-4 (new 'stack-no-clear 'event-message-block)))
             (set! (-> a1-4 from) self)
             (set! (-> a1-4 num-params) 0)
             (set! (-> a1-4 message) 'plunge)
-            (let ((t9-10 send-event-function)
-                  (v1-13 (-> self alt-actor)))
-              (t9-10 (if v1-13 (-> v1-13 extra process)) a1-4))))))
+            (let (
+                  (t9-10 send-event-function)
+                  (v1-13 (-> self alt-actor))
+                )
+              (t9-10 (if v1-13 (-> v1-13 extra process)) a1-4)
+            )
+          )
+        )
+      )
+    )
   :code
     (behavior ()
       (loop

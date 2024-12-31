@@ -678,13 +678,14 @@
            (set! (-> s5-0 vector 0 y) (- (- 2048 (/ (-> s5-0 vector 0 y) 16))))
            (let ((v1-15 (abs (-> s5-0 vector 0 x))))
              (cond
-               ((and (< v1-15 20) (let ((v1-17 (abs (-> s5-0 vector 0 y)))) (< v1-17 10)))
-                (when (not (and (-> self entity) (logtest? (-> self entity extra perm status) (entity-perm-status complete))))
-                  (sound-stop (-> self sound-id))
-                  (sound-play "beam-connect" :position (the-as symbol (target-pos 0))))
-                (process-entity-status! self (entity-perm-status complete) #t)
-                (set! gp-0 #t))
-               (else (process-entity-status! self (entity-perm-status complete) #f)))))
+                ((and (< v1-15 20) (let ((v1-17 (abs (-> s5-0 vector 0 y)))) (< v1-17 10)))
+                  (when (not (and (-> self entity) (logtest? (-> self entity extra perm status) (entity-perm-status complete))))
+                    (sound-stop (-> self sound-id))
+                    (sound-play "beam-connect" :position (the-as symbol (target-pos 0))))
+                  (process-entity-status! self (entity-perm-status complete) #t)
+                  (set! gp-0 #t)
+                )
+                (else (process-entity-status! self (entity-perm-status complete) #f)))))
           (else (process-entity-status! self (entity-perm-status complete) #f)))))
     (let* ((s5-2 (position-in-front-of-camera! (new 'stack-no-clear 'vector) 40960.0 0.0))
            (v1-28 (vector-normalize! (vector-! (new 'stack-no-clear 'vector) (-> self next-reflector-trans) s5-2) 20480.0))
@@ -897,8 +898,7 @@
                                  0
                                  #f
                                  '((0 ambient camera "gamcam15") (0 want-force-vis jungle #t) (0 want-force-vis village1 #t))
-                                 :to
-                                 self))
+                                 :to self))
                  ((name= arg0 "periscope-12")
                   (process-spawn pov-camera (-> gp-0 extra trans) *junglecam-sg* "tower3" 0 #f '((0 ambient camera "gamcam16")) :to self))
                  ((name= arg0 "periscope-13")
@@ -911,8 +911,7 @@
                                  0
                                  #f
                                  '((0 ambient camera "gamcam18") (0 want-force-vis jungle #t) (0 want-force-vis village1 #t))
-                                 :to
-                                 self))
+                                 :to self))
                  ((name= arg0 "periscope-15")
                   (process-spawn pov-camera
                                  (-> gp-0 extra trans)
@@ -924,8 +923,7 @@
                                   (0 want-force-vis jungle #t)
                                   (0 want-force-vis village1 #t)
                                   (0 display-level village1 movie))
-                                 :to
-                                 self))
+                                 :to self))
                  (else (format #t "ERROR<GMJ>: don't know which peri-beamcam to play for ~S~%" arg0))))
               (else (format #t "ERROR<GMJ>: couldn't find junglecam-1 to initialize peri-beamcam~%"))))))
 
@@ -1037,12 +1035,12 @@
       (logclear! (-> self mask) (process-mask actor-pause))
       (set! (-> self raised?) #t)
       (set! (-> self grips-moving?) #t)
-      (let ((f30-0 8192.0)
+      (let ((grips-target-y-offset (meters 2.0))
             (gp-0 (res-lump-value (-> self entity) 'text-id uint128)))
-        (until (= (-> self y-offset-grips) f30-0)
+        (until (= (-> self y-offset-grips) grips-target-y-offset)
           (if (nonzero? gp-0) (level-hint-spawn (text-id zero) (the-as string #f) (-> self entity) *entity-pool* (game-task none)))
           (sound-play "site-moves" :id (-> self grips-sound-id) :position (the-as symbol (-> self grips transform)))
-          (seek! (-> self y-offset-grips) f30-0 (* 16384.0 (seconds-per-frame)))
+          (seek! (-> self y-offset-grips) grips-target-y-offset (* (meters 12.0) (seconds-per-frame)))
           (periscope-update-joints)
           (suspend)))
       (set! (-> self grips-moving?) #f)
@@ -1211,20 +1209,6 @@
             (when (send-event *target* 'end-mode)
               (cond
                 ((and (-> self entity) (logtest? (-> self entity extra perm status) (entity-perm-status complete)))
-                 (let ((gp-1 (ppointer->handle (peri-beamcam-init-by-other (the-as string (-> self name))))))
-                   (suspend)
-                   (while (and *target* (= (-> *target* next-state name) 'target-periscope))
-                     (periscope-crosshair)
-                     (suspend))
-                   (logclear! (-> self reflector 0 draw status) (draw-status hidden))
-                   (periscope-find-reflection-angles)
-                   (set! (-> self turn) (-> self target-turn))
-                   (set! (-> self tilt) (-> self target-tilt))
-                   (set! *camera-init-mat* (-> self old-camera-matrix))
-                   (send-event *camera* 'change-state *camera-base-mode* 0)
-                   (set! *camera-init-mat* #f)
-                   (while (handle->process (the-as handle gp-1))
-                     (suspend)))
                  (process-spawn-function process
                    (lambda ((arg0 string))
                      (while (or (-> *setting-control* current ambient) (-> *setting-control* current movie) (-> *setting-control* current hint))
@@ -1238,8 +1222,12 @@
                         (level-hint-spawn (text-id jungle-lurkerm-resolution) "sksp0018" (the-as entity #f) *entity-pool* (game-task none))))
                      (none))
                    (-> self name)
-                   :to
-                   self))
+                   :to self)
+
+                  ; Hack from blindfold assist
+                  (send-event *camera* 'change-state cam-bike 0)
+                  (send-event *camera* 'change-state *camera-base-mode* 0)
+                )
                 (else
                  (set! *camera-init-mat* (-> self old-camera-matrix))
                  (send-event *camera* 'change-state *camera-base-mode* 0)
@@ -1440,12 +1428,6 @@
         (ambient-hint-spawn "gamcam21" (the-as vector #f) *entity-pool* 'camera)
         (let ((v1-11 (manipy-spawn (-> self root trans) (-> self entity) *reflector-mirror-break-sg* #f :to self)))
           (send-event (ppointer->process v1-11) 'anim-mode 'play1))
-        (suspend-for (seconds 0.5))
-        (process-grab? *target*)
-        (while (or (-> self child) (-> *setting-control* current ambient))
-          (suspend))
-        (process-release? *target*)
-        (peri-beamcam-init-by-other (the-as string (-> self name)))
         (process-entity-status! self (entity-perm-status complete) #t)
         (close-specific-task! (game-task jungle-lurkerm) (task-status need-reminder-a))
         (while (-> self child)

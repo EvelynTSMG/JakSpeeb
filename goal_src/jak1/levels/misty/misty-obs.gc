@@ -1066,7 +1066,7 @@
          (let ((f0-3 (vector-dot gp-0 v1-4))
                (f1-1 (vector-dot a0-4 v1-4)))
            (cond
-             ((and (< 0.0 f1-1) (< (fabs (/ f0-3 2)) f1-1))
+             ((and (< 0.0 f1-1) (< (fabs (* 0.5 f0-3)) f1-1))
               (if (send-event *target* 'query 'powerup (pickup-type eco-red)) (go mis-bone-bridge-fall #f) (go mis-bone-bridge-hit)))
              (else (go mis-bone-bridge-bump) #f))))))))
 
@@ -1460,27 +1460,7 @@
   ((mistycam-lod0-mg (meters 999999)))
   :bounds (static-spherem 0 0 0 20))
 
-(defun mistycam-spawn ()
-  (with-pp
-    (let ((gp-0 (entity-actor-lookup (-> pp entity) 'alt-actor 0)))
-      (when gp-0
-        (let* ((gp-1 (ppointer->handle (process-spawn pov-camera
-                                                      (-> gp-0 extra trans)
-                                                      *mistycam-sg*
-                                                      (new 'static 'spool-anim :name "mistycam-cannon" :index 5 :parts 1 :command-list '())
-                                                      0
-                                                      #f
-                                                      '()
-                                                      :to
-                                                      pp)))
-               (s5-2 (ppointer->handle (process-spawn fuel-cell :init fuel-cell-init-as-clone gp-1 (-> pp entity extra perm task) :to pp))))
-          (let ((v1-13 (handle->process gp-1)))
-            (if v1-13 (set! (-> (the-as pov-camera v1-13) notify-handle) (the-as handle s5-2))))
-          (while (handle->process gp-1)
-            (suspend))
-          (send-event (handle->process s5-2) 'stop-cloning))))
-    0
-    (none)))
+(defun mistycam-spawn ())
 
 (deftype misty-battlecontroller (battlecontroller) ())
 

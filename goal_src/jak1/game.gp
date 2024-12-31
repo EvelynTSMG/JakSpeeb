@@ -1652,18 +1652,6 @@
 ;; Example Custom Level
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Set up the build system to build the level geometry
-;; this path is relative to the custom_assets/jak1/levels/ folder
-;; it should point to the .jsonc file that specifies the level.
-(build-custom-level "test-zone")
-;; the DGO file
-(custom-level-cgo "TSZ.DGO" "test-zone/testzone.gd")
-
-;; generate the art group for a custom actor.
-;; requires a .glb model file in custom_assets/jak1/models/custom_levels
-;; to also generate a collide-mesh, add :gen-mesh #t
-(build-actor "test-actor" :gen-mesh #t)
-
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Game Engine Code
 ;;;;;;;;;;;;;;;;;;;;;
@@ -2118,10 +2106,7 @@
  "mods/mod-debug.gc"
 )
 
-(goal-src "levels/test-zone/test-zone-obs.gc" "process-drawable")
-
 
 (group-list "all-code"
   `(,@(reverse *all-gc*))
   )
-

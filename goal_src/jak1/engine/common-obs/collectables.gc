@@ -12,6 +12,9 @@
 ;; name in dgo: collectables
 ;; dgos: GAME, ENGINE
 
+(define-extern flutflut? (symbol))
+(define-extern racer? (symbol))
+
 (define-extern runs-on-orb-pickup (function process-tree none))
 
 (define-extern runs-on-fly-pickup (function none))
@@ -61,7 +64,6 @@
   (:methods
    (initialize (_type_) _type_)
    (initialize-params (_type_ time-frame float) none)))
-
 
 (defmethod initialize-params ((this collectable) (arg0 time-frame) (arg1 float))
   (logclear! (-> this mask) (process-mask crate enemy platform ambient))
@@ -116,7 +118,6 @@
    (initialize-eco (_type_ entity-actor pickup-type float) object)
    (animate (_type_) none)
    (blocked () _type_ :state)))
-
 
 (defmethod initialize ((this eco-collectable))
   (stack-size-set! (-> this main-thread) 192) ;; og:preserve-this hack increased from 128
@@ -377,7 +378,7 @@
          (when (and (>= 0.0 (-> self root transv y)) (>= (-> self base y) (-> self root trans y)))
            (set! (-> self root trans y) (-> self base y))
            (cond
-             ((< (-> self root transv y) -8192.0) (set! (-> self root transv y) (/ (-> self root transv y) -2)))
+             ((< (-> self root transv y) -8192.0) (set! (-> self root transv y) (* -0.5 (-> self root transv y))))
              (else
               (vector-reset! (-> self root transv))
               (logclear! (-> self flags) (collectable-flags trans))
@@ -553,7 +554,6 @@
 
 (deftype eco (eco-collectable) ())
 
-
 (defmethod animate ((this eco))
   (let ((a0-1 (-> this part))
         (a1-0 (-> this root root-prim prim-core)))
@@ -592,13 +592,11 @@
 
 (deftype eco-yellow (eco) ())
 
-
 (defmethod init-from-entity! ((this eco-yellow) (arg0 entity-actor))
   (initialize-eco this arg0 (pickup-type eco-yellow) (-> *FACT-bank* eco-single-inc))
   (none))
 
 (deftype eco-red (eco) ())
-
 
 (defmethod init-from-entity! ((this eco-red) (arg0 entity-actor))
   (initialize-eco this arg0 (pickup-type eco-red) (-> *FACT-bank* eco-single-inc))
@@ -606,13 +604,11 @@
 
 (deftype eco-blue (eco) ())
 
-
 (defmethod init-from-entity! ((this eco-blue) (arg0 entity-actor))
   (initialize-eco this arg0 (pickup-type eco-blue) (-> *FACT-bank* eco-single-inc))
   (none))
 
 (deftype health (eco-collectable) ())
-
 
 (defmethod animate ((this health))
   (let ((a0-1 (-> this part))
@@ -627,7 +623,6 @@
   (none))
 
 (deftype eco-pill (eco-collectable) ())
-
 
 (defmethod animate ((this eco-pill))
   (let ((a0-1 (-> this part))
@@ -684,7 +679,6 @@
   :texture-level 2)
 
 (deftype money (eco-collectable) ())
-
 
 (defmethod run-logic? ((this money))
   (or (not (logtest? (-> this mask) (process-mask actor-pause)))
@@ -845,12 +839,11 @@
   (:states (fuel-cell-clone-anim handle)
    (fuel-cell-spline-slider handle float float)))
 
-
 (defun fuel-cell-pick-anim ((arg0 process-drawable))
   (let* ((gp-0 (-> arg0 entity extra trans))
          (a0-2 (res-lump-value (-> arg0 entity) 'movie-mask uint128 :time (the-as float -1000000000.0)))
          (a1-1 8)
-         (v1-6 (abs (the int (+ (/ (-> gp-0 x) METER_LENGTH) (/ (-> gp-0 z) METER_LENGTH)))))
+         (v1-6 (abs (the int (+ (* 0.00024414062 (-> gp-0 x)) (* 0.00024414062 (-> gp-0 z))))))
          (v1-7 (mod v1-6 a1-1)))
     (while (logtest? a0-2 (ash 1 v1-7))
       (set! v1-7 (mod (+ v1-7 1) a1-1)))
@@ -995,52 +988,66 @@
       (logclear! (-> self draw status) (draw-status hidden))
       (process-entity-status! self (entity-perm-status dead) #t)
       (stop! (-> self sound))
-      (while (handle->process (-> *game-info* other-camera-handle))
-        (format #t
-                "WARNING: fuel-cell stall ~D ~A ~A~%"
-                (current-time)
-                (handle->process (-> *game-info* other-camera-handle))
-                (-> *level* loading-level))
-        (spool-push *art-control* (-> self victory-anim name) 0 self (the-as float -99.0))
-        (suspend))
-      (while (not (send-event *target* 'clone-anim self))
-        (spool-push *art-control* (-> self victory-anim name) 0 self (the-as float -99.0))
-        (format #t "WARNING: fuel-cell stall on not cloning.~%")
-        (suspend))
-      (set! sv-96 (new 'static 'res-tag))
-      (let* ((v1-34 (res-lump-data (-> self entity) 'movie-pos (inline-array vector) :tag-ptr (& sv-96) :time (the-as float -1000000000.0)))
-             (gp-1 (if (and v1-34 (< (-> self movie-pos-index) (the-as int (-> sv-96 elt-count))))
-                     (-> v1-34 (-> self movie-pos-index))
-                     (the-as vector #f))))
-        (cond
-          ((and *debug-segment* (< (-> *fuel-cell-tune-pos* w) 1000000000.0))
-           (move-to-point! (-> self root) *fuel-cell-tune-pos*)
-           (set-yaw-angle-clear-roll-pitch! (-> self root) (-> *fuel-cell-tune-pos* w)))
-          ((= (-> self movie-pos-index) -1))
-          (gp-1 (move-to-point! (-> self root) gp-1) (set-yaw-angle-clear-roll-pitch! (-> self root) (-> gp-1 w)))
-          (else
-           (move-to-point! (-> self root) (-> *target* control trans))
-           (set-yaw-angle-clear-roll-pitch! (-> self root) (y-angle (-> *target* control)))
-           (move-to-ground (-> self root) (the-as float 40960.0) (the-as float 40960.0) #f (collide-kind background)))))
-      (spool-push *art-control* (-> self victory-anim name) 0 self (the-as float -99.0))
+
+      ; Remove the Power Cell animation >>>:(
+      ;(while (handle->process (-> *game-info* other-camera-handle))
+      ;  (format #t
+      ;          "WARNING: fuel-cell stall ~D ~A ~A~%"
+      ;          (current-time)
+      ;          (handle->process (-> *game-info* other-camera-handle))
+      ;          (-> *level* loading-level))
+      ;  (spool-push *art-control* (-> self victory-anim name) 0 self (the-as float -99.0))
+      ;  (suspend))
+      ;(while (not (send-event *target* 'clone-anim self))
+      ;  (spool-push *art-control* (-> self victory-anim name) 0 self (the-as float -99.0))
+      ;  (format #t "WARNING: fuel-cell stall on not cloning.~%")
+      ;  (suspend))
+      ;(set! sv-96 (new 'static 'res-tag))
+      ;(let* ((v1-34 (res-lump-data (-> self entity) 'movie-pos (inline-array vector) :tag-ptr (& sv-96) :time (the-as float -1000000000.0)))
+      ;       (gp-1 (if (and v1-34 (< (-> self movie-pos-index) (the-as int (-> sv-96 elt-count))))
+      ;               (-> v1-34 (-> self movie-pos-index))
+      ;               (the-as vector #f))))
+      ;  (cond
+      ;    ((and *debug-segment* (< (-> *fuel-cell-tune-pos* w) 1000000000.0))
+      ;     (move-to-point! (-> self root) *fuel-cell-tune-pos*)
+      ;     (set-yaw-angle-clear-roll-pitch! (-> self root) (-> *fuel-cell-tune-pos* w)))
+      ;    ((= (-> self movie-pos-index) -1))
+      ;    (gp-1 (move-to-point! (-> self root) gp-1) (set-yaw-angle-clear-roll-pitch! (-> self root) (-> gp-1 w)))
+      ;    (else
+      ;     (move-to-point! (-> self root) (-> *target* control trans))
+      ;     (set-yaw-angle-clear-roll-pitch! (-> self root) (y-angle (-> *target* control)))
+      ;     (move-to-ground (-> self root) (the-as float 40960.0) (the-as float 40960.0) #f (collide-kind background)))))
+      ;(spool-push *art-control* (-> self victory-anim name) 0 self (the-as float -99.0))
+
       (send-event *target* 'get-pickup (-> self fact pickup-type) (-> self fact pickup-amount))
-      (set! (-> self draw bounds w) 32768.0)
-      (logior! (-> self skel status) (janim-status inited))
-      (send-event *target* 'blend-shape #t)
-      (add-setting! 'music-volume 'rel (-> *setting-control* current music-volume-movie) 0)
-      (add-setting! 'sfx-volume 'rel (-> *setting-control* current sfx-volume-movie) 0)
-      (add-setting! 'ambient-volume 'rel (-> *setting-control* current ambient-volume-movie) 0)
-      (process-spawn othercam self 10 #f #t :to self)
+
+      ; Remove the Power Cell animation >:(
+      ;(set! (-> self draw bounds w) 32768.0)
+      ;(logior! (-> self skel status) (janim-status inited))
+      ;(send-event *target* 'blend-shape #t)
+      ;(add-setting! 'music-volume 'rel (-> *setting-control* current music-volume-movie) 0)
+      ;(add-setting! 'sfx-volume 'rel (-> *setting-control* current sfx-volume-movie) 0)
+      ;(add-setting! 'ambient-volume 'rel (-> *setting-control* current ambient-volume-movie) 0)
+      ;(process-spawn othercam self 10 #f #t :to self)
+
       (auto-save-command 'auto-save 0 0 *default-pool*)
-      (ja-play-spooled-anim (-> self victory-anim)
-                            (the-as art-joint-anim fuel-cell-idle-ja)
-                            (the-as art-joint-anim #f)
-                            (the-as (function process-drawable symbol) false-func))
+
+      ; Remove the Power Cell animation
+      ;(ja-play-spooled-anim (-> self victory-anim)
+      ;                      (the-as art-joint-anim fuel-cell-idle-ja)
+      ;                      (the-as art-joint-anim #f)
+      ;                      (the-as (function process-drawable symbol) false-func))
+
       (remove-setting! 'music-volume)
       (remove-setting! 'sfx-volume)
       (remove-setting! 'ambient-volume)
       (send-event *target* 'blend-shape #f)
-      (send-event *target* 'end-mode)
+
+      ; Do not throw me off the zoomer, that's mean! >:(
+      (when (and (not flutflut?) (not racer?))
+        (send-event *target* 'end-mode)
+      )
+
       (send-event *camera* 'no-intro)
       (send-event *camera* 'clear-entity)
       (ja-channel-set! 0)
@@ -1252,7 +1259,6 @@
 
 (deftype buzzer (eco-collectable)
   ((victory-anim spool-anim)))
-
 
 (defmethod animate ((this buzzer))
   (quaternion-rotate-y! (-> this root quat) (-> this root quat) (* 40049.777 (seconds-per-frame)))
@@ -1600,7 +1606,6 @@
   (:states
    ecovalve-idle))
 
-
 (defskelgroup *ecovalve-sg*
   ecovalve
   ecovalve-geo-jg
@@ -1671,7 +1676,6 @@
    vent-blocked
    (vent-pickup handle)
    vent-wait-for-touch))
-
 
 (defmethod initialize ((this vent) (arg0 entity-actor) (arg1 pickup-type))
   (stack-size-set! (-> this main-thread) 128)
@@ -1815,13 +1819,11 @@
 
 (deftype ventyellow (vent) ())
 
-
 (defmethod init-from-entity! ((this ventyellow) (arg0 entity-actor))
   (initialize this arg0 (pickup-type eco-yellow))
   (none))
 
 (deftype ventred (vent) ())
-
 
 (defmethod init-from-entity! ((this ventred) (arg0 entity-actor))
   (initialize this arg0 (pickup-type eco-red))
@@ -1829,13 +1831,11 @@
 
 (deftype ventblue (vent) ())
 
-
 (defmethod init-from-entity! ((this ventblue) (arg0 entity-actor))
   (initialize this arg0 (pickup-type eco-blue))
   (none))
 
 (deftype ecovent (vent) ())
-
 
 (defmethod init-from-entity! ((this ecovent) (arg0 entity-actor))
   (initialize this arg0 (pickup-type eco-blue))

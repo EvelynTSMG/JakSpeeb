@@ -118,7 +118,6 @@
    (tongue-pull-speed-max        float)
    (yellow-attack-timeout        time-frame)))
 
-
 (define *TARGET-bank*
   (new 'static
        'target-bank
@@ -141,16 +140,16 @@
        :swim-jump-height-max (meters 5)
        :tube-jump-height-min (meters 1.75)
        :tube-jump-height-max (meters 2.5)
-       :wheel-duration (seconds 0.5)
+       :wheel-duration (seconds 0.4)
        :wheel-jump-pre-window (seconds 1)
        :wheel-jump-post-window (seconds 0.1)
-       :wheel-speed-min (meters 11.5)
-       :wheel-speed-inc (meters 1.5)
+       :wheel-speed-min (meters 23.0)
+       :wheel-speed-inc (meters 3.0)
        :wheel-flip-duration (seconds 0.7)
        :wheel-flip-height (meters 3.52)
-       :wheel-flip-dist (meters 17.3)
+       :wheel-flip-dist (meters 40.95)
        :wheel-flip-art-height (meters 3.2969)
-       :wheel-flip-art-dist (meters 12.5)
+       :wheel-flip-art-dist (meters 18.75)
        :duck-slide-distance (meters 5.75)
        :fall-far (meters 30)
        :fall-far-inc (meters 20)
@@ -159,7 +158,7 @@
        :slide-down-timeout (seconds 0.2)
        :fall-timeout (seconds 1)
        :fall-stumble-threshold (meters 39.9)
-       :yellow-projectile-speed (meters 60)
+       :yellow-projectile-speed (meters 200)
        :hit-invulnerable-timeout (seconds 3)
        :run-cycle-length 60.0
        :walk-cycle-dist (meters 2.8)
@@ -211,7 +210,7 @@
        :stuck-distance (meters 0.05)
        :tongue-pull-speed-min 0.15
        :tongue-pull-speed-max 0.22
-       :yellow-attack-timeout (seconds 0.2)))
+       :yellow-attack-timeout (seconds 0.1)))
 
 (defbehavior target-start-attack target ()
   (+! (-> self control unknown-dword50) 1)
@@ -548,7 +547,7 @@
     (dotimes (s5-0 8)
       (+! f30-0
           (fabs (deg-diff (atan (-> arg0 control unknown-vector-array00 s5-0 x) (-> arg0 control unknown-vector-array00 s5-0 z)) 0.0))))
-    (/ f30-0 8)))
+    (* 0.125 f30-0)))
 
 (defbehavior can-play-stance-amibent? target ()
   (and (time-elapsed? (-> self state-time) (seconds 30))
@@ -770,9 +769,9 @@
   (let ((f0-1 (fmax -1.0 (fmin 1.0 (* 2.0 arg1))))
         (f30-0 (fmax -1.0 (fmin 1.0 (* 1.6 arg2)))))
     (let ((f1-5 (fabs (- f0-1 (the-as float (-> arg0 blend 1))))))
-      (set! (-> arg0 blend 1) (seek (the-as float (-> arg0 blend 1)) f0-1 (fmax 0.05 (fmin 0.2 (/ f1-5 4))))))
+      (set! (-> arg0 blend 1) (seek (the-as float (-> arg0 blend 1)) f0-1 (fmax 0.05 (fmin 0.2 (* 0.25 f1-5))))))
     (let ((f0-7 (fabs (- f30-0 (the-as float (-> arg0 blend 2))))))
-      (set! (-> arg0 blend 2) (seek (the-as float (-> arg0 blend 2)) f30-0 (fmax 0.05 (fmin 0.2 (/ f0-7 4)))))))
+      (set! (-> arg0 blend 2) (seek (the-as float (-> arg0 blend 2)) f30-0 (fmax 0.05 (fmin 0.2 (* 0.25 f0-7)))))))
   (if (>= (-> arg0 blend 1) 0.0)
     (ja :chan (-> arg0 chan 1) :group! (-> arg0 group 1) :frame-interp (fabs (-> arg0 blend 1)))
     (ja :chan (-> arg0 chan 1) :group! (-> arg0 group 2) :frame-interp (fabs (-> arg0 blend 1))))

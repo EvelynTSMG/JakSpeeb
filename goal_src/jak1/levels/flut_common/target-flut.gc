@@ -35,7 +35,7 @@
        :jump-height-max (meters 7)
        :double-jump-height-min (meters 1)
        :double-jump-height-max (meters 2)
-       :air-attack-speed (meters 20)
+       :air-attack-speed (meters 40)
        :ground-timeout (seconds 0.5)))
 
 (define *flut-walk-mods*
@@ -46,8 +46,8 @@
        :turnvv 524288.0
        :tiltv 65536.0
        :tiltvv 131072.0
-       :transv-max 81920.0
-       :target-speed 81920.0
+       :transv-max 163840.0
+       :target-speed 163840.0
        :seek0 1.5
        :seek90 3.0
        :seek180 2.0
@@ -74,8 +74,8 @@
        :turnvv 54613.332
        :tiltv 32768.0
        :tiltvv 131072.0
-       :transv-max 81920.0
-       :target-speed 81920.0
+       :transv-max 163840.0
+       :target-speed 163840.0
        :seek0 0.9
        :seek90 1.5
        :seek180 1.5
@@ -103,8 +103,8 @@
        :turnvv 54613.332
        :tiltv 32768.0
        :tiltvv 131072.0
-       :transv-max 81920.0
-       :target-speed 81920.0
+       :transv-max 163840.0
+       :target-speed 163840.0
        :seek0 0.9
        :seek90 1.5
        :seek180 1.5
@@ -130,8 +130,8 @@
        :name 'wheel-flip
        :tiltv 32768.0
        :tiltvv 131072.0
-       :transv-max 122880.0
-       :target-speed 122880.0
+       :transv-max 245760.0
+       :target-speed 245760.0
        :seek90 0.5
        :seek180 0.15
        :slip-factor 1.0
@@ -154,8 +154,8 @@
        :name 'flop
        :tiltv 32768.0
        :tiltvv 131072.0
-       :transv-max 122880.0
-       :target-speed 122880.0
+       :transv-max 245760.0
+       :target-speed 245760.0
        :seek0 1.0
        :seek90 0.3
        :seek180 1.5
@@ -485,7 +485,7 @@
                   ((ja-group? eichar-flut-walk-ja) (set! f28-0 (ja-frame-num 0)) (-> self skel root-channel 1 frame-interp))
                   (else (ja-channel-push! 2 (the-as time-frame gp-0)) f30-0))))
         (ja-no-eval :group! eichar-flut-walk-ja :num! (loop!) :dist 49152.0 :frame-num f28-0)
-        (ja-no-eval :chan 1 :group! eichar-flut-run-ja :num! (identity (/ f28-0 2)) :frame-interp f30-0 :dist 40960.0)
+        (ja-no-eval :chan 1 :group! eichar-flut-run-ja :num! (identity (* 0.5 f28-0)) :frame-interp f30-0 :dist 40960.0)
         (loop
           (suspend)
           (let ((f0-13 (lerp-scale (the-as float 0.0)
@@ -1164,21 +1164,21 @@
                          (vector-float*! (-> self control transv) (-> self control dynam gravity-normal) f30-0)
                          (vector-float*! gp-3 gp-3 (/ f0-4 f1-3))))))
          (suspend-for (seconds 1)
-           (target-flut-falling-anim-trans)
-           (vector-seek! (-> self draw color-mult) *zero-vector* (seconds-per-frame))
-           (let ((s5-2 (new-stack-vector0))
-                 (f30-1 (the-as number (vector-dot (-> self control dynam gravity-normal) (-> self control transv)))))
-             0.0
-             (vector-! s5-2
-                       (-> self control transv)
-                       (vector-float*! s5-2 (-> self control dynam gravity-normal) (the-as float f30-1)))
-             (let* ((f0-10 (vector-length s5-2))
-                    (f1-4 f0-10))
-               (if (< (the-as float (-> self control unknown-uint20)) (the-as float f30-1)) (set! f30-1 (-> self control unknown-uint20)))
-               (vector+! (-> self control transv)
-                         (vector-float*! (-> self control transv) (-> self control dynam gravity-normal) (the-as float f30-1))
-                         (vector-float*! s5-2 s5-2 (/ f0-10 f1-4)))))
-           (target-flut-post-post))
+                      (target-flut-falling-anim-trans)
+                      (vector-seek! (-> self draw color-mult) *zero-vector* (seconds-per-frame))
+                      (let ((s5-2 (new-stack-vector0))
+                            (f30-1 (the-as number (vector-dot (-> self control dynam gravity-normal) (-> self control transv)))))
+                        0.0
+                        (vector-! s5-2
+                                  (-> self control transv)
+                                  (vector-float*! s5-2 (-> self control dynam gravity-normal) (the-as float f30-1)))
+                        (let* ((f0-10 (vector-length s5-2))
+                               (f1-4 f0-10))
+                          (if (< (the-as float (-> self control unknown-uint20)) (the-as float f30-1)) (set! f30-1 (-> self control unknown-uint20)))
+                          (vector+! (-> self control transv)
+                                    (vector-float*! (-> self control transv) (-> self control dynam gravity-normal) (the-as float f30-1))
+                                    (vector-float*! s5-2 s5-2 (/ f0-10 f1-4)))))
+                      (target-flut-post-post))
          (camera-change-to (the-as string 'base) 0 #f))
         (else
          (set! (-> self control unknown-surface00) *neutral-mods*)

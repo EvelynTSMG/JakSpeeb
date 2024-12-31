@@ -63,7 +63,7 @@
 
 
 (define *CRATE-bank*
-  (new 'static 'crate-bank :COLLIDE_YOFF 4096.0 :COLLIDE_RADIUS 4915.2 :DARKECO_EXPLODE_RADIUS 16384.0))
+  (new 'static 'crate-bank :COLLIDE_YOFF (meters 1.0) :COLLIDE_RADIUS (meters 1.2) :DARKECO_EXPLODE_RADIUS (meters 4.0)))
 
 (deftype crate (process-drawable)
   ((root                collide-shape-moving :override)
@@ -519,8 +519,10 @@
           (go-virtual die #f (the-as int s5-0)))
          (else (send-event arg0 'get-attack-count 1) (go-virtual die #f (the-as int s5-0))))))
     (('touch)
-     (case (-> self defense)
-       (('darkeco) (send-event arg0 'attack (-> arg3 param 0) (static-attack-info ((mode 'darkeco)))) (go-virtual die #f 0))))
+      (case (-> self defense)
+        (('darkeco) (send-event arg0 'attack (-> arg3 param 0) (static-attack-info ((mode 'darkeco)))) (go-virtual die #f 0))
+      )
+    )
     (('bonk)
      (when (= (-> self root trans y) (-> self base y))
        (activate! (-> self smush) -0.1 75 150 1.0 1.0)
@@ -862,9 +864,9 @@
 
 (defmethod smush-update! ((this crate))
   (let ((f0-0 (update! (-> this smush))))
-    (set! (-> this root scale x) (+ 1.0 (/ f0-0 -2)))
+    (set! (-> this root scale x) (+ 1.0 (* -0.5 f0-0)))
     (set! (-> this root scale y) (+ 1.0 f0-0))
-    (set! (-> this root scale z) (+ 1.0 (/ f0-0 -2))))
+    (set! (-> this root scale z) (+ 1.0 (* -0.5 f0-0))))
   0
   (none))
 
@@ -954,7 +956,7 @@
             (+! (-> self root trans y) (* f30-0 (seconds-per-frame)))
             (when (< (-> self root trans y) (-> self base y))
               (set! (-> self root trans y) (-> self base y))
-              (set! f30-0 (/ f30-0 -2))
+              (set! f30-0 (* -0.5 f30-0))
               (if (< (fabs f30-0) 16384.0) (set! f30-0 0.0)))
             (crate-post)
             (ja-post)
