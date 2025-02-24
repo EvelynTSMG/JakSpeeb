@@ -164,14 +164,14 @@ nav-enemy-default-event-handler
   :trans
     (behavior ()
       (cond
-        ((or (not *target*) (< 102400.0 (vector-vector-distance (-> self collide-info trans) (-> *target* control trans))))
+        ((or (not *target*) (< (meters 25) (vector-vector-distance (-> self collide-info trans) (-> *target* control trans))))
          (set! (-> self target-speed) 0.0)
          (if (= (-> self momentum-speed) 0.0) (go muse-idle)))
         ((or (not *target*)
              (< (-> self sprint-distance) (vector-vector-distance (-> self collide-info trans) (-> *target* control trans))))
-         (set! (-> self target-speed) 40960.0))
-        (else (set! (-> self target-speed) 61440.0)))
-      (seek! (-> self sprint-distance) 0.0 (* 4096.0 (seconds-per-frame)))
+         (set! (-> self target-speed) (meters 20)))
+        (else (set! (-> self target-speed) (meters 30))))
+      (seek! (-> self sprint-distance) 0.0 (* (meters 1) (seconds-per-frame)))
       (muse-check-dest-point))
   :code
     (behavior ()
