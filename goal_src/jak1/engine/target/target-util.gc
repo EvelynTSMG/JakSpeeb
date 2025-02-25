@@ -153,7 +153,7 @@
        :duck-slide-distance (meters 5.75)
        :fall-far (meters 30)
        :fall-far-inc (meters 20)
-       :attack-timeout (seconds 0.3)
+       :attack-timeout (seconds 0.2)
        :ground-timeout (seconds 0.2)
        :slide-down-timeout (seconds 0.2)
        :fall-timeout (seconds 1)
@@ -210,7 +210,7 @@
        :stuck-distance (meters 0.05)
        :tongue-pull-speed-min 0.15
        :tongue-pull-speed-max 0.22
-       :yellow-attack-timeout (seconds 0.1)))
+       :yellow-attack-timeout (seconds 0.2)))
 
 (defbehavior target-start-attack target ()
   (+! (-> self control unknown-dword50) 1)
@@ -636,19 +636,38 @@
 
 (defbehavior can-hands? target ((arg0 symbol))
   (cond
-    ((or (not (cpad-pressed? (-> self control unknown-cpad-info00 number) square))
-         (or (and (logtest? (-> self state-flags) (state-flags prevent-attack))
-                  (or (not (logtest? (-> self state-flags) (state-flags remove-prevents)))
-                      (not (and (= (-> self fact eco-type) (pickup-type eco-yellow)) (>= (-> self fact eco-level) 1.0)))))
-             (logtest? (-> self control unknown-surface01 flags) (surface-flags prevent-attacks-during-launch-jump surf08))))
-     #f)
-    ((and (or (not arg0)
-              (and (not (time-elapsed? (-> self control unknown-dword11) (-> *TARGET-bank* ground-timeout)))
-                   (< (-> self control unknown-float61) 0.7)))
-          (time-elapsed? (if (and (= (-> self fact eco-type) (pickup-type eco-yellow)) (>= (-> self fact eco-level) 1.0))
-                           (-> *TARGET-bank* yellow-attack-timeout)
-                           (-> *TARGET-bank* attack-timeout))
-                         (-> self control unknown-dword31)))
+    (
+      (or
+        (not (cpad-pressed? (-> self control unknown-cpad-info00 number) square))
+        (or
+          (and
+            (logtest? (-> self state-flags) (state-flags prevent-attack))
+            (or
+              (not (logtest? (-> self state-flags) (state-flags remove-prevents)))
+              (not (and (= (-> self fact eco-type) (pickup-type eco-yellow)) (>= (-> self fact eco-level) 1.0)))
+            )
+          )
+          (logtest? (-> self control unknown-surface01 flags) (surface-flags prevent-attacks-during-launch-jump surf08))
+        )
+      )
+      #f
+    )
+    (
+      (and
+        (or
+          (not arg0)
+          (and
+            (not (time-elapsed? (-> self control unknown-dword11) (-> *TARGET-bank* ground-timeout)))
+            (< (-> self control unknown-float61) 0.7)
+          )
+        )
+        (time-elapsed?
+          (if (and (= (-> self fact eco-type) (pickup-type eco-yellow)) (>= (-> self fact eco-level) 1.0))
+            (-> *TARGET-bank* yellow-attack-timeout)
+            (-> *TARGET-bank* attack-timeout))
+          (-> self control unknown-dword31)
+        )
+      )
      #t)
     (else (set-time! (-> self control unknown-dword32)) #f)))
 
