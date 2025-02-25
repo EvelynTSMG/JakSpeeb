@@ -613,26 +613,34 @@
   :code
     (behavior ()
       (set-time! (-> self state-time))
-      (let ((f30-0 2.0))
-        (ja-no-eval :group!
-                    ogreboss-bounce-boulder-idle-ja
-                    :num!
-                    (seek! (ja-aframe (the-as float 40.0) 0) f30-0)
-                    :frame-num 0.0)
+
+      (let ((f30-0 3.5))
+        (ja-no-eval
+          :group! ogreboss-bounce-boulder-idle-ja
+          :num! (seek! (ja-aframe 40.0 0) f30-0)
+          :frame-num 0.0
+        )
+
         (until (ja-done? 0)
-          (set! (-> self side-pos) (* (fmin 1.0 (/ (ja-frame-num 0) (ja-aframe (the-as float 40.0) 0))) (-> self dest-pos)))
+          (set! (-> self side-pos) (* (fmin 1.0 (/ (ja-frame-num 0) (ja-aframe 40.0 0))) (-> self dest-pos)))
           (suspend)
-          (ja :num! (seek! (ja-aframe (the-as float 40.0) 0) f30-0)))
-        (ja-no-eval :group!
-                    ogreboss-bounce-boulder-idle-ja
-                    :num! (seek! max f30-0)
-                    :frame-num
-                    (ja-aframe (the-as float 40.0) 0))
+          (ja :num! (seek! (ja-aframe 40.0 0) f30-0))
+        )
+
+        (ja-no-eval
+          :group! ogreboss-bounce-boulder-idle-ja
+          :num! (seek! max f30-0)
+          :frame-num (ja-aframe 40.0 0)
+        )
+
         (until (ja-done? 0)
-          (if (>= (ja-frame-num 0) (ja-aframe (the-as float 235.0) 0))
-            (seek! (-> self side-pos) (the-as float 0.0) (* 20480.0 (seconds-per-frame))))
+          (if (>= (ja-frame-num 0) (ja-aframe 235.0 0))
+            (seek! (-> self side-pos) 0.0 (* (meters 5) (seconds-per-frame))))
           (suspend)
-          (ja :num! (seek! max f30-0))))
+          (ja :num! (seek! max f30-0))
+        )
+      )
+
       (cleanup-for-death self))
   :post
     (behavior ()
@@ -640,11 +648,11 @@
       (transform-post)
       (find-ground-and-draw-shadow (the-as vector (-> self root root-prim prim-core))
                                    (the-as vector #f)
-                                   (the-as float 49152.0)
+                                   (meters 12.0)
                                    (collide-kind background)
                                    (the-as process-drawable #f)
-                                   (the-as float 0.0)
-                                   (the-as float 409600.0))))
+                                   0.0
+                                   (meters 100.0))))
 
 (defbehavior ogreboss-bounce-boulder-init-by-other ogreboss-bounce-boulder ((arg0 int) (arg1 entity-actor))
   (set! (-> self entity) arg1)
@@ -1154,7 +1162,7 @@
     (behavior ()
       (ogreboss-set-stage2-camera)
       (ogreboss-move-far (seconds 0.1) (the-as float 2.0))
-      (let ((f30-0 (* 0.75 (-> self difficulty))))
+      (let ((f30-0 (+ 0.9 (* 0.95 (-> self difficulty)))))
         (let ((gp-0 #f))
           (ja-channel-push! 1 (seconds 0.2))
           (ja-no-eval :group! ogreboss-attack2-start-ja :num! (seek! max 1.5) :frame-num 0.0)
@@ -1165,8 +1173,8 @@
           (while (not gp-0)
             (ogreboss-roll-boulder)
             (set! gp-0
-                  (or (and (time-elapsed? (-> self state-time) (seconds 2)) (not (ogreboss-player-inside-range? (the-as float 524288.0))))
-                      (ogreboss-player-inside-range? (the-as float 409600.0))))
+                  (or (and (time-elapsed? (-> self state-time) (seconds 0.5)) (not (ogreboss-player-inside-range? (meters 128.0))))
+                      (ogreboss-player-inside-range? (meters 100.0))))
             (ja-no-eval :group! ogreboss-attack2-loop-ja :num! (seek! max f30-0) :frame-num 0.0)
             (until (ja-done? 0)
               (if gp-0 0)
@@ -1193,7 +1201,7 @@
       (set-time! (-> self state-time))
       (set! (-> self hit-count) 0)
       (set! (-> self max-hit-count) (the int (* 6.0 (-> self difficulty))))
-      (set! (-> self grow-time) (* 300.0 (+ (/ 10.0 (-> self difficulty)) (* -1.0 (-> self level)))))
+      (set! (-> self grow-time) (* 200.0 (+ (/ 10.0 (-> self difficulty)) (* -1.0 (-> self level)))))
       (set! (-> self boulder) (the-as handle #f)))
   :exit
     (behavior ()
@@ -1203,7 +1211,7 @@
     (behavior ()
       (let ((v1-1 (handle->process (-> self boulder))))
         (if (and v1-1 (>= (-> (the-as ogreboss-super-boulder v1-1) size) 1.0)) (go ogreboss-stage3-throw)))
-      (when (and (not (ogreboss-player-inside-range? (the-as float 409600.0))) (time-elapsed? (-> self state-time) (seconds 0.5)))
+      (when (and (not (ogreboss-player-inside-range? (meters 100.0))) (time-elapsed? (-> self state-time) (seconds 0.5)))
         (set-time! (-> self state-time))
         (send-event (handle->process (-> self boulder)) 'grow-faster))
       0)
