@@ -369,59 +369,59 @@
       (let ((gp-0 1))
         (let ((v1-7 (-> self button-id)))
           (cond
-            ((zero? v1-7)
-             (let ((a0-4 (process-spawn sunkencam
-                                        :init
-                                        pov-camera-init-by-other
-                                        (-> self root trans)
-                                        *sunkencam-sg*
-                                        "qbert-show-door-open"
-                                        0
-                                        #f
-                                        '()
-                                        :to
-                                        self)))
-               (set! (-> (the-as sunkencam (-> a0-4 0)) seq) (the-as uint 3))))
+            ;; ((zero? v1-7)
+            ;;  (let ((a0-4 (process-spawn sunkencam
+            ;;                             :init
+            ;;                             pov-camera-init-by-other
+            ;;                             (-> self root trans)
+            ;;                             *sunkencam-sg*
+            ;;                             "qbert-show-door-open"
+            ;;                             0
+            ;;                             #f
+            ;;                             '()
+            ;;                             :to
+            ;;                             self)))
+            ;;    (set! (-> (the-as sunkencam (-> a0-4 0)) seq) (the-as uint 3))))
             ((= v1-7 1)
-             (let ((v1-13 (process-spawn sunkencam
-                                         :init
-                                         pov-camera-init-by-other
-                                         (-> self root trans)
-                                         *sunkencam-sg*
-                                         "qbert-show-door-open"
-                                         0
-                                         #f
-                                         '()
-                                         :to
-                                         self)))
-               (set! (-> (the-as sunkencam (-> v1-13 0)) seq) (the-as uint 4)))
+            ;;  (let ((v1-13 (process-spawn sunkencam
+            ;;                              :init
+            ;;                              pov-camera-init-by-other
+            ;;                              (-> self root trans)
+            ;;                              *sunkencam-sg*
+            ;;                              "qbert-show-door-open"
+            ;;                              0
+            ;;                              #f
+            ;;                              '()
+            ;;                              :to
+            ;;                              self)))
+            ;;    (set! (-> (the-as sunkencam (-> v1-13 0)) seq) (the-as uint 4)))
              (set! gp-0 -1))
-            ((= v1-7 2)
-             (let ((a0-17 (process-spawn sunkencam
-                                         :init
-                                         pov-camera-init-by-other
-                                         (-> self root trans)
-                                         *sunkencam-sg*
-                                         "qbert-show-door-open"
-                                         0
-                                         #f
-                                         '()
-                                         :to
-                                         self)))
-               (set! (-> (the-as sunkencam (-> a0-17 0)) seq) (the-as uint 5))))
+            ;; ((= v1-7 2)
+            ;;  (let ((a0-17 (process-spawn sunkencam
+            ;;                              :init
+            ;;                              pov-camera-init-by-other
+            ;;                              (-> self root trans)
+            ;;                              *sunkencam-sg*
+            ;;                              "qbert-show-door-open"
+            ;;                              0
+            ;;                              #f
+            ;;                              '()
+            ;;                              :to
+            ;;                              self)))
+            ;;    (set! (-> (the-as sunkencam (-> a0-17 0)) seq) (the-as uint 5))))
             ((= v1-7 3)
-             (let ((v1-24 (process-spawn sunkencam
-                                         :init
-                                         pov-camera-init-by-other
-                                         (-> self root trans)
-                                         *sunkencam-sg*
-                                         "qbert-show-door-open"
-                                         0
-                                         #f
-                                         '()
-                                         :to
-                                         self)))
-               (set! (-> (the-as sunkencam (-> v1-24 0)) seq) (the-as uint 6)))
+            ;;  (let ((v1-24 (process-spawn sunkencam
+            ;;                              :init
+            ;;                              pov-camera-init-by-other
+            ;;                              (-> self root trans)
+            ;;                              *sunkencam-sg*
+            ;;                              "qbert-show-door-open"
+            ;;                              0
+            ;;                              #f
+            ;;                              '()
+            ;;                              :to
+            ;;                              self)))
+            ;;    (set! (-> (the-as sunkencam (-> v1-24 0)) seq) (the-as uint 6)))
              (set! gp-0 -1))))
         (if (< gp-0 0) (set! (-> self plat-id) 32))
         (set! (-> self plat-id-dir) gp-0)))
@@ -464,7 +464,7 @@
   (set! (-> this plat-id) -1)
   (set! (-> this root) (new 'process 'trsqv))
   (process-drawable-from-entity! this arg0)
-  (set! (-> this timeout) (the-as time-frame (the int (* 300.0 (res-lump-float (-> this entity) 'timeout :default 10.0)))))
+  (set! (-> this timeout) (the-as time-frame (the int (* 150.0 (res-lump-float (-> this entity) 'timeout :default 10.0)))))
   (set! (-> this delay-til-wiggle) (+ (-> this timeout) (seconds -0.4)))
   (set! (-> this link) (new 'process 'actor-link-info this))
   (set! (-> this plat-mask) (the-as uint (get-matching-actor-type-mask (-> this link) square-platform)))
