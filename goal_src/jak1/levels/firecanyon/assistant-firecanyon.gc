@@ -61,7 +61,7 @@
                    (else (set-time! (-> self state-time)) #f))
                  (and (not (closed? (-> self tasks) (game-task firecanyon-assistant) (task-status need-reward-speech)))
                       (not (movie?))
-                      (not (level-hint-displayed?))
+                      ;; (not (level-hint-displayed?))
                       (not (and *cheat-mode* (cpad-hold? 0 l3)))
                       (not (time-elapsed? (-> self state-time) (seconds 10)))))
         (hide-hud)
