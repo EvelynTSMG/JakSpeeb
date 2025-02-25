@@ -169,7 +169,9 @@
       (until (ja-done? 0)
         (transform-post)
         (suspend)
-        (ja :num! (seek!)))
+        (ja :num! (seek!))
+        (ja :num! (seek!))
+      )
       (loop
         (suspend))))
 
