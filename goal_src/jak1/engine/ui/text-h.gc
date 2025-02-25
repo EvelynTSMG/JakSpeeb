@@ -795,6 +795,8 @@
   (pad-circle #x2001)
   (pad-x #x2002)
   (pad-square #x2003)
+  ;; custom text
+  (cannon-controls #x2100)
   ;; GAME-TEXT-ID ENUM ENDS
   )
 
