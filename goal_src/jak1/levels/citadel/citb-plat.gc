@@ -230,7 +230,7 @@
         (suspend))
       (set-time! (-> self state-time))
       (loop
-        (let ((f30-0 (- 1.0 (* 0.0011111111 (the float (- (current-time) (-> self state-time)))))))
+        (let ((f30-0 (- 1.0 (* 0.0088888888 (the float (- (current-time) (-> self state-time)))))))
           (when (< f30-0 0.0)
             (set! (-> self root trans y) (-> self rise-height))
             (go-virtual citb-base-plat-active))
