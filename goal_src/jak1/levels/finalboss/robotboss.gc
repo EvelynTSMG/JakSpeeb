@@ -1036,7 +1036,7 @@
       (while (not (ja-done? 0))
         (suspend)
         (ja-eval))
-      (robotboss-setup-for-hits 1 5)
+      (robotboss-setup-for-hits 1 9)
       (loop
         (until (or (>= (- (-> *display* game-frame-counter) (-> self state-time)) (-> self till-next-shot))
                    (ja-group? robotboss-red-last-hit-ja))
@@ -1260,7 +1260,7 @@
     (behavior ()
       (set! (-> self state-time) (-> *display* game-frame-counter))
       (set! (-> self children-spawned) 0)
-      (robotboss-setup-for-hits 2 5)
+      (robotboss-setup-for-hits 2 9)
       (set! (-> self des-cam-entity) "camera-385"))
   :exit
     (behavior ()
@@ -1597,7 +1597,7 @@
   :enter
     (behavior ()
       (set! (-> self state-time) (-> *display* game-frame-counter))
-      (robotboss-setup-for-hits 4 5)
+      (robotboss-setup-for-hits 4 9)
       (let ((a1-1 (new 'stack-no-clear 'event-message-block)))
         (set! (-> a1-1 from) self)
         (set! (-> a1-1 num-params) 0)
@@ -1932,19 +1932,21 @@
   (set! (-> this yellow-gun max-dist) 819200.0)
   (set! (-> this yellow-gun ignore-angle) 16384.0)
   (set! (-> this palette-val) 0.0)
-  (set! (-> this dda)
-        (new 'static
-             'robotboss-dda
-             :blue-bomb-time 4200.0
-             :num-blobs 12
-             :green-bomb-time 4200.0
-             :red-shots-min 5
-             :red-shot-time-min 3600.0
-             :red-shot-time-rnd 600.0
-             :red-bomb-time 3600.0
-             :yellow-shot-time-min 900.0
-             :yellow-shot-time-rnd 600.0
-             :yellow-gun-hits 5
-             :yellow-bomb-time 3600.0))
+  (set!
+    (-> this dda)
+    (new 'static 'robotboss-dda
+      :blue-bomb-time (fsec 5.0)
+      :num-blobs 12
+      :green-bomb-time (fsec 5.0)
+      :red-shots-min 8
+      :red-shot-time-min (fsec 5.0)
+      :red-shot-time-rnd (fsec 2.0)
+      :red-bomb-time (fsec 5.0)
+      :yellow-shot-time-min (fsec 1.5)
+      :yellow-shot-time-rnd (fsec 2.0)
+      :yellow-gun-hits 9
+      :yellow-bomb-time (fsec 5.0)
+    )
+  )
   (go robotboss-blue-wait)
   (none))
