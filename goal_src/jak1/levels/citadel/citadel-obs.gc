@@ -100,7 +100,7 @@
 
 (defmethod setup-new-process! ((this citb-arm-section))
   (logclear! (-> this mask) (process-mask actor-pause))
-  (load-params! (-> this sync) this (the-as uint 3000) 0.0 0.15 0.15)
+  (load-params! (-> this sync) this (the-as uint 1500) 0.0 0.15 0.15)
   (cond
     ((> (-> this sync period) 0) (set! (-> this rot-scale) 1.0))
     (else
