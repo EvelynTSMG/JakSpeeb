@@ -1200,7 +1200,7 @@
     (behavior ()
       (set-time! (-> self state-time))
       (set! (-> self hit-count) 0)
-      (set! (-> self max-hit-count) (the int (* 6.0 (-> self difficulty))))
+      (set! (-> self max-hit-count) (the int (* 10.0 (-> self difficulty))))
       (set! (-> self grow-time) (* 200.0 (+ (/ 10.0 (-> self difficulty)) (* -1.0 (-> self level)))))
       (set! (-> self boulder) (the-as handle #f)))
   :exit
