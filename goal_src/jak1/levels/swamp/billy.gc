@@ -551,7 +551,7 @@
         (('billy-rat-die)
          (+! (-> self num-rats) -1)
          (let* ((f0-2 (rand-float-gen))
-                (f0-3 (* 3.0 f0-2)))
+                (f0-3 (* 6.0 f0-2)))
            (cond
              ((< 1.0 f0-3) #f)
              ((< 0.8333333 f0-3) (play-ambient (-> self ambient) "SKSP009F" #t (the-as vector #f)))
