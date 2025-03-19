@@ -398,18 +398,18 @@
   (new 'static
        'surface
        :name 'launch-jump
-       :turnv 18204.445
+       :turnv 36408.89
        :turnvv 65536.0
        :tiltv 32768.0
        :tiltvv 131072.0
        :transv-max 122880.0
        :target-speed 122880.0
-       :seek0 0.9
-       :seek90 0.9
-       :seek180 0.9
-       :fric 0.3
-       :nonlin-fric-dist 1.0
-       :slip-factor 1.0
+       :seek0 6.25
+       :seek90 6.25
+       :seek180 10.5
+       :fric 7.0
+       :nonlin-fric-dist 0.001
+       :slip-factor 1.3
        :slide-factor 1.0
        :slope-up-factor 1.0
        :slope-down-factor 1.0

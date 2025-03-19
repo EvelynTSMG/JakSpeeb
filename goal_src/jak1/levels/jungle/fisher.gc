@@ -1180,7 +1180,7 @@
   (let ((f1-14 (analog-input (the-as int (-> *cpad-list* cpads 0 leftx)) 128.0 32.0 110.0 28.0)))
     (+! (-> self paddle-vel) (* f1-14 (seconds-per-frame)))
     (when (< (fabs f1-14) STICK_DEADZONE)
-      (set! (-> self paddle-vel) 0.0) ; Snappier controls to mitigate the speeb adding difficulty
+      (*! (-> self paddle-vel) 0.8) ; Snappier controls to mitigate the speeb adding difficulty ; ON ICE
     )
   )
   (set! (-> self paddle-vel) (fmax -2.0 (fmin 2.0 (-> self paddle-vel))))
