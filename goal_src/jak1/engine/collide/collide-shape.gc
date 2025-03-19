@@ -668,7 +668,7 @@
     (((pat-material rotate)) (set! (-> obj surf) *ice-surface*))
     (else (set! (-> obj surf) *ice-surface*)))
   ;; racer gets set whenever you get on the zoomer. If we are on the zoomer, just go to "race-track"
-  (if (logtest? (-> obj root-prim prim-core action) (collide-action racer)) (set! (-> obj surf) *race-track-surface*))
+  (if (logtest? (-> obj root-prim prim-core action) (collide-action racer)) (set! (-> obj surf) *ice-surface*))
   (when (nonzero? (-> arg0 event))
     (case (-> arg0 event)
       (((pat-event deadly))
